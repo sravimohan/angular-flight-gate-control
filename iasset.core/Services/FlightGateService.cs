@@ -21,7 +21,7 @@ namespace iasset.core.Services
         public IEnumerable<FlightDetail> GetFlightDetails(Guid gateId, DateTime date)
         {
             return _flightGateRepository.FlightDetails
-                .Where(d => d.Gate.Id.Equals(gateId) && (d.ArrivalTime.Equals(date) || d.DepartureTime.Equals(date)));
+                .Where(d => d.Gate.Id.Equals(gateId) && (d.ArrivalTime.Date.Equals(date.Date) || d.DepartureTime.Date.Equals(date.Date)));
         }
 
         public IEnumerable<Gate> GetAllGates()

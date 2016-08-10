@@ -26,5 +26,10 @@ namespace iasset.web.Controllers
 
             return View();
         }
+
+        public ActionResult AddNewFlight()
+        {
+            return View();
+        }
     }
 }
