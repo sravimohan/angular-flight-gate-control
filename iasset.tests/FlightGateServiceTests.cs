@@ -23,7 +23,7 @@ namespace iasset.tests
             var date = new DateTime(2016, 8, 15, 10, 0, 0);
 
             //act
-            var flights = _flightGateService.GetFlights(gate.Id, date);
+            var flights = _flightGateService.GetFlightDetails(gate.Id, date);
 
             //assert
             Assert.IsNotNull(flights);
@@ -43,7 +43,7 @@ namespace iasset.tests
             _flightGateService.AddFlightDetail(flight.Id, gate.Id, arrival, departure);
 
             //assert
-            var flights = _flightGateService.GetFlights(gate.Id, arrival);
+            var flights = _flightGateService.GetFlightDetails(gate.Id, arrival);
             Assert.IsNotNull(flights);
             Assert.AreEqual(1, flights.Count());
         }
@@ -64,7 +64,7 @@ namespace iasset.tests
             _flightGateService.UpdateFlightDetail(flightDetailId, flight.Id, gate.Id, updatedArrival, updatedDeparture);
 
             //assert
-            var updatedFlight = _flightGateService.GetFlights(gate.Id, updatedArrival).First();
+            var updatedFlight = _flightGateService.GetFlightDetails(gate.Id, updatedArrival).First();
             Assert.IsNotNull(updatedFlight);
             Assert.AreEqual(updatedArrival, updatedFlight.ArrivalTime);
             Assert.AreEqual(updatedDeparture, updatedFlight.DepartureTime);
@@ -81,7 +81,7 @@ namespace iasset.tests
             var flightDetailId = _flightGateService.AddFlightDetail(flight.Id, gate.Id, arrival, departure);
 
             //pre-assert
-            var preflights = _flightGateService.GetFlights(gate.Id, arrival);
+            var preflights = _flightGateService.GetFlightDetails(gate.Id, arrival);
             Assert.IsNotNull(preflights);
             Assert.AreEqual(1, preflights.Count());
 
@@ -89,7 +89,7 @@ namespace iasset.tests
             _flightGateService.CancelFlightDetail(flightDetailId);
 
             //assert
-            var flights = _flightGateService.GetFlights(gate.Id, arrival);
+            var flights = _flightGateService.GetFlightDetails(gate.Id, arrival);
             Assert.IsNotNull(flights);
             Assert.AreEqual(0, flights.Count());
         }

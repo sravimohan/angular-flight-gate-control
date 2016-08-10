@@ -13,7 +13,12 @@ namespace iasset.core.Services
             _flightGateRepository = new Repository.FlightGateRepository();
         }
 
-        public IEnumerable<FlightDetail> GetFlights(Guid gateId, DateTime date)
+        public IEnumerable<FlightDetail> GetAllFlightDetails()
+        {
+            return _flightGateRepository.FlightDetails;
+        }
+
+        public IEnumerable<FlightDetail> GetFlightDetails(Guid gateId, DateTime date)
         {
             return _flightGateRepository.FlightDetails
                 .Where(d => d.Gate.Id.Equals(gateId) && (d.ArrivalTime.Equals(date) || d.DepartureTime.Equals(date)));
@@ -27,6 +32,15 @@ namespace iasset.core.Services
         public IEnumerable<Flight> GetAllFlights()
         {
             return _flightGateRepository.Flights;
+        }
+
+        public FlightDetail GetFlightDetail(Guid flightDetailId)
+        {
+            var flightDetail = _flightGateRepository.FlightDetails.FirstOrDefault(d => d.Id.Equals(flightDetailId));
+            if (flightDetail == null)
+                throw new ArgumentException("Invalid Flight Detail Id");
+
+            return flightDetail;
         }
 
         public Guid AddFlightDetail(Guid flightId, Guid gateId, DateTime arrivalDateTime, DateTime departureDateTime)

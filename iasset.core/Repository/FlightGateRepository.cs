@@ -6,6 +6,7 @@ namespace iasset.core.Repository
 {
     public class FlightGateRepository
     {
+        private static bool isDataCreated;
         private static IList<Flight> _flights;
         private static IList<Gate> _gates;
         private static IList<FlightDetail> _flightDetails;
@@ -16,6 +17,16 @@ namespace iasset.core.Repository
 
         public FlightGateRepository()
         {
+            if (isDataCreated)
+                return;
+
+            InitData();
+        }
+
+        private void InitData()
+        {
+            isDataCreated = true;
+
             _flights = new List<Flight>
             {
                 new Flight {Id = Guid.NewGuid(), Name = "Flight A" },
