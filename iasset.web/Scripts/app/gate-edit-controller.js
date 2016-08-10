@@ -1,4 +1,5 @@
-﻿var app = angular.module('flightGateApp', []);
+﻿var app = angular.module('gateEditApp', []);
+
 app.controller('gateEditCtrl', function ($scope, $http, $window) {
     $scope.flightDetailId = null;
     $scope.selectedGate = null;

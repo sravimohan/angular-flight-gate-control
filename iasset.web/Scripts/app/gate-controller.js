@@ -1,4 +1,5 @@
-﻿var app = angular.module('flightGateApp', []);
+﻿var app = angular.module('gateApp', []);
+
 app.controller('gateCtrl', function ($scope, $http) {
 
     $scope.flightDetailId = null;
