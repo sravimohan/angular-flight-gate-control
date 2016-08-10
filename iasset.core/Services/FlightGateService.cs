@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 namespace iasset.core.Services
@@ -20,8 +21,12 @@ namespace iasset.core.Services
 
         public IEnumerable<FlightDetail> GetFlightDetails(Guid gateId, DateTime date)
         {
-            return _flightGateRepository.FlightDetails
-                .Where(d => d.Gate.Id.Equals(gateId) && (d.ArrivalTime.Date.Equals(date.Date) || d.DepartureTime.Date.Equals(date.Date)));
+            var qry = _flightGateRepository.FlightDetails.AsQueryable()
+                .Where(d => d.Gate.Id.Equals(gateId) 
+                && ((d.ArrivalTime.Year >= date.Year &&  d.ArrivalTime.Month == date.Month && d.ArrivalTime.Day == date.Day) 
+                || (d.DepartureTime.Year >= date.Year && d.DepartureTime.Month == date.Month && d.DepartureTime.Day == date.Day))).Distinct();
+
+            return qry.AsEnumerable();
         }
 
         public IEnumerable<Gate> GetAllGates()

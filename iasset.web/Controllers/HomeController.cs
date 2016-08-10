@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace iasset.web.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -13,22 +14,14 @@ namespace iasset.web.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
         public ActionResult AddNewFlight()
         {
+            return View();
+        }
+
+        public ActionResult EditFlight(Guid id)
+        {
+            ViewBag.Id = id;
             return View();
         }
     }

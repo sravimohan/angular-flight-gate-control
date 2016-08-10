@@ -7,6 +7,7 @@ using iasset.core.Services;
 
 namespace iasset.web.Controllers
 {
+    [Authorize]
     public class FlightsQueryController : ApiController
     {
         private readonly IFlightGateService _flightGateService;

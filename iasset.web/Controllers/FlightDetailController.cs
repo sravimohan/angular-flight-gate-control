@@ -7,6 +7,7 @@ using iasset.core.Services;
 
 namespace iasset.web.Controllers
 {
+    [Authorize]
     public class FlightDetailController : ApiController
     {
         private readonly IFlightGateService _flightGateService;
@@ -34,10 +35,18 @@ namespace iasset.web.Controllers
             _flightGateService.UpdateFlightDetail(flightDetailId, flightId, gateId, arrivalDateTime, departureDateTime);
         }
 
-        // PUT: api/FlightDetail/5
-        public void Put([FromBody]Guid flightId, Guid gateId, DateTime arrivalDateTime, DateTime departureDateTime)
+        public class PutInput
         {
-            _flightGateService.AddFlightDetail(flightId, gateId, arrivalDateTime, departureDateTime);
+            public Guid flightId;
+            public Guid gateId;
+            public DateTime arrivalDateTime;
+            public DateTime departureDateTime;
+        }
+
+        // PUT: api/FlightDetail/5
+        public void Put([FromBody]PutInput input)
+        {
+            _flightGateService.AddFlightDetail(input.flightId, input.gateId, input.arrivalDateTime, input.departureDateTime);
         }
 
         // DELETE: api/FlightDetail/5
