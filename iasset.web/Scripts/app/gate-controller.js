@@ -12,16 +12,6 @@ app.controller("gateCtrl", function ($scope, dataFactory) {
     $scope.flights = null;
     $scope.flightDetails = null;
 
-    dataFactory.getGates()
-    .then(function (response) {
-        $scope.gates = response.data;
-    });
-
-    dataFactory.getFlights()
-    .then(function (response) {
-        $scope.flights = response.data;
-    });
-
     $scope.searchFlightDetails = function () {
         dataFactory.searchFlightDetails($scope.selectedGate, $scope.selectedDate)
         .then(function (response) {
@@ -42,4 +32,26 @@ app.controller("gateCtrl", function ($scope, dataFactory) {
             $scope.frmNewFlightDetail.$setPristine();
         });
     }
+
+    var init = function () {
+
+        dataFactory.getGates()
+            .then(function (response) {
+                $scope.gates = response.data;
+
+                if (response.data != null) {
+                    $scope.selectedGate = response.data[0].Id;
+                    $scope.searchFlightDetails();
+                }
+            });
+
+        dataFactory.getFlights()
+            .then(function (response) {
+                $scope.flights = response.data;
+            });
+
+        $scope.selectedDate = dataFactory.formatDate(new Date());
+    };
+
+    init();
 });

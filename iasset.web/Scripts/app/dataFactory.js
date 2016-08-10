@@ -12,7 +12,7 @@
         };
 
         dataFactory.searchFlightDetails = function (selectedGate, selectedDate) {
-            return $http.get("/api/flightsquery?gateId=" + selectedGate + "&date=" + this.formatDate(selectedDate));
+            return $http.get("/api/flightsquery?gateId=" + selectedGate + "&date=" + this.formatDateApi(selectedDate));
         };
 
         dataFactory.addNewFlightDetail = function (data) {
@@ -40,7 +40,12 @@
             if (month.length < 2) month = "0" + month;
             if (day.length < 2) day = "0" + day;
 
-            return [year, month, day].join("-");
+            return [day, month, year].join("/");
+        }
+
+        dataFactory.formatDateApi = function (date) {
+            var d = date.split("/");
+            return [d[2], d[1], d[0]].join("-");
         }
 
         return dataFactory;
