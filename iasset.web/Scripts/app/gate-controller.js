@@ -1,6 +1,7 @@
 ﻿var app = angular.module('flightGateApp', []);
 app.controller('gateCtrl', function ($scope, $http) {
 
+    $scope.flightDetailId = null;
     $scope.selectedGate = null;
     $scope.selectedFlight = null;
     $scope.selectedArrivalDateTime = null;
@@ -28,7 +29,7 @@ app.controller('gateCtrl', function ($scope, $http) {
         });
     }
 
-    $scope.addNewFlight = function () {
+    $scope.addNewFlightDetail = function () {
 
         var data = {
             flightId: $scope.selectedFlight,
@@ -38,7 +39,7 @@ app.controller('gateCtrl', function ($scope, $http) {
         };
 
         return $http.put('/api/FlightDetail/put', data).then(function (response) {
-            return response;
+            $scope.frmNewFlightDetail.$setPristine();
         });
     }
 

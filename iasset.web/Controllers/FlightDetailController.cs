@@ -29,13 +29,22 @@ namespace iasset.web.Controllers
             return Json(_flightGateService.GetFlightDetail(id));
         }
 
-        // POST: api/FlightDetail
-        public void Post([FromBody]Guid flightDetailId, Guid flightId, Guid gateId, DateTime arrivalDateTime, DateTime departureDateTime)
+        public class FlightDetailPost
         {
-            _flightGateService.UpdateFlightDetail(flightDetailId, flightId, gateId, arrivalDateTime, departureDateTime);
+            public Guid flightDetailId;
+            public Guid flightId;
+            public Guid gateId;
+            public DateTime arrivalDateTime;
+            public DateTime departureDateTime;
         }
 
-        public class PutInput
+        // POST: api/FlightDetail
+        public void Post([FromBody]FlightDetailPost input)
+        {
+            _flightGateService.UpdateFlightDetail(input.flightDetailId, input.flightId, input.gateId, input.arrivalDateTime, input.departureDateTime);
+        }
+
+        public class FlightDetailPut
         {
             public Guid flightId;
             public Guid gateId;
@@ -44,7 +53,7 @@ namespace iasset.web.Controllers
         }
 
         // PUT: api/FlightDetail/5
-        public void Put([FromBody]PutInput input)
+        public void Put([FromBody]FlightDetailPut input)
         {
             _flightGateService.AddFlightDetail(input.flightId, input.gateId, input.arrivalDateTime, input.departureDateTime);
         }

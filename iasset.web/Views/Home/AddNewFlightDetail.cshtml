@@ -1,0 +1,39 @@
+﻿<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Add New Flight Details</div>
+    <div class="panel-body">
+
+        <div ng-app="flightGateApp" ng-controller="gateCtrl">
+
+            <form ng-submit="addNewFlightDetail()" name="frmNewFlightDetail" class="form">
+                <div class="form-group">
+                    <label for="gateSelect">Select Gate</label>
+                    <select class="form-control" name="gateSelect" id="gateSelect" ng-model="selectedGate">
+                        <option ng-repeat="g in gates" value="{{g.Id}}">{{g.Name}}</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="gateSelect">Select Flight</label>
+                    <select class="form-control" name="flightSelect" id="flightSelect" ng-model="selectedFlight">
+                        <option ng-repeat="f in flights" value="{{f.Id}}">{{f.Name}}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="dateArrivalSelect">Select Arrival Date Time</label>
+                    <input class="form-control" id="dateArrivalSelect" type="datetime" ng-model="selectedArrivalDateTime"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="dateDepartureSelect">Select Departure Date Time</label>
+                    <input class="form-control" id="dateDepartureSelect" type="datetime" ng-model="selectedDepartureDateTime"/>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="margin-top: 25px">Save</button>
+            </form>
+
+        </div>
+
+    </div>
+</div>

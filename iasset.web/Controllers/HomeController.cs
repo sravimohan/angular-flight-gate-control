@@ -14,14 +14,14 @@ namespace iasset.web.Controllers
             return View();
         }
 
-        public ActionResult AddNewFlight()
+        public ActionResult AddNewFlightDetail()
         {
             return View();
         }
 
-        public ActionResult EditFlight(Guid id)
+        public ActionResult EditFlightDetail(Guid id)
         {
-            ViewBag.Id = id;
+            ViewBag.FlightDetailId = id;
             return View();
         }
     }
