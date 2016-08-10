@@ -59,9 +59,10 @@ namespace iasset.web.Controllers
         }
 
         // DELETE: api/FlightDetail/5
-        public void Delete(Guid id)
+        [Route("api/FlightDetail/Delete/{flightDetailId}")]
+        public void Delete(string flightDetailId)
         {
-            _flightGateService.CancelFlightDetail(id);
+            _flightGateService.CancelFlightDetail(new Guid(flightDetailId));
         }
     }
 }

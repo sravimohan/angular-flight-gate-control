@@ -5,7 +5,7 @@
 
         <div ng-app="flightGateApp" ng-controller="gateEditCtrl" ng-init="flightDetailId='@Html.Raw(ViewBag.FlightDetailId)'">
 
-            <form ng-submit="saveFlightDetail()" name="frmNewFlightDetail" class="form">
+            <form class="form" ng-submit="saveFlightDetail()" name="frmNewFlightDetail" class="form">
                 <div class="form-group">
                     <label for="gateSelect">Select Gate</label>
                     <select class="form-control" name="gateSelect" id="gateSelect" ng-model="selectedGate" ng-selected="selectedGate">
@@ -22,15 +22,19 @@
 
                 <div class="form-group">
                     <label for="dateArrivalSelect">Select Arrival Date Time</label>
-                    <input class="form-control" id="dateArrivalSelect" type="datetime" ng-model="selectedArrivalDateTime"/>
+                    <input class="form-control" id="dateArrivalSelect" type="datetime" ng-model="selectedArrivalDateTime" />
                 </div>
 
                 <div class="form-group">
                     <label for="dateDepartureSelect">Select Departure Date Time</label>
-                    <input class="form-control" id="dateDepartureSelect" type="datetime" ng-model="selectedDepartureDateTime"/>
+                    <input class="form-control" id="dateDepartureSelect" type="datetime" ng-model="selectedDepartureDateTime" />
                 </div>
-
-                <button type="submit" class="btn btn-primary" style="margin-top: 25px">Save</button>
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button ng-click="cancelFlight()" class="btn btn-danger" type="button">Cancel Flight</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

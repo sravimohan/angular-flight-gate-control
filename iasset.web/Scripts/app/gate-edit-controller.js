@@ -1,5 +1,5 @@
 ﻿var app = angular.module('flightGateApp', []);
-app.controller('gateEditCtrl', function ($scope, $http) {
+app.controller('gateEditCtrl', function ($scope, $http, $window) {
     $scope.flightDetailId = null;
     $scope.selectedGate = null;
     $scope.selectedFlight = null;
@@ -32,7 +32,6 @@ app.controller('gateEditCtrl', function ($scope, $http) {
     }
     
     $scope.saveFlightDetail = function () {
-
         var data = {
             flightDetailId: $scope.flightDetailId,
             flightId: $scope.selectedFlight,
@@ -42,6 +41,12 @@ app.controller('gateEditCtrl', function ($scope, $http) {
         };
 
         return $http.post('/api/FlightDetail/Post', data).then(function (response) {
+        });
+    }
+
+    $scope.cancelFlight = function() {
+        return $http.delete('/api/FlightDetail/Delete/' + $scope.flightDetailId).then(function (response) {
+            $window.location.href = '/';
         });
     }
 
