@@ -95,7 +95,7 @@
                 <td>{{d.Flight.Name}}</td>
                 <td>{{d.ArrivalTime | date:'dd/MM/yyyy h:mm a'}}</td>
                 <td>{{d.DepartureTime | date:'dd/MM/yyyy h:mm a'}}</td>
-                <td><a href="/Home/EditFlightDetail/{{d.Id}}">View Detail</a></td>
+                <td><a class="btn btn-primary btn-sm" role="button" href="/Home/EditFlightDetail/{{d.Id}}">Edit / Cancel Flight Details</a></td>
             </tr>
             </tbody>
         </table>
