@@ -78,6 +78,10 @@ app.controller("gateCtrl", function ($scope, $timeout, dataFactory) {
         dataFactory.getFlights()
             .then(function (response) {
                 $scope.flights = response.data;
+
+                if (response.data != null) {
+                    $scope.selectedFlight = response.data[0].Id;
+                }
             });
 
         $scope.selectedDate = dataFactory.formatDate(new Date());
