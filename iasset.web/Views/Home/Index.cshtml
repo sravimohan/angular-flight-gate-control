@@ -1,45 +1,105 @@
-﻿<div class="panel panel-default">
-    <!-- Default panel contents -->
-    <div class="panel-heading">Search for Flight Details</div>
-    <div class="panel-body">
+﻿<div ng-app="gateApp" ng-controller="gateCtrl" class="{{ bodyClass }}" ng-cloak>
 
-        <div ng-app="gateApp" ng-controller="gateCtrl" class="{{ bodyClass }}"  ng-cloak>
+    <div ng-show="successMessage != null" class="alert alert-success">
+        {{successMessage}}
+    </div>
 
+    <div ng-show="errorMessage != null" class="alert alert-danger">
+        {{errorMessage}}
+    </div>
+
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Add Flight to Gate</div>
+        <div class="panel-body">
+            <form ng-submit="addNewFlightDetail()" name="frmNewFlightDetail" class="form-inline">
+
+                <div class="form-group">
+                    <label for="gateSelect">Gate</label>
+                    <div class="form-inline">
+                        <select class="form-control" name="gateSelect" id="gateSelect" ng-model="selectedGate">
+                            <option ng-repeat="g in gates" value="{{g.Id}}">{{g.Name}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="gateSelect">Flight</label>
+                    <div class="form-inline">
+                        <select class="form-control" name="flightSelect" id="flightSelect" ng-model="selectedFlight">
+                            <option ng-repeat="f in flights" value="{{f.Id}}">{{f.Name}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="dateArrivalSelectTime">Arrival Date</label>
+                    <div class="form-inline">
+                        <input class="form-control input-small" id="dateArrivalSelect" type="text" ng-model="selectedArrivalDate" ng-change="onselectedArrivalDateChange()" jqdatepicker/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dateArrivalSelectTime">Arrival Time</label>
+                    <div class="form-inline">
+                        <input class="form-control input-small" id="dateArrivalSelectTime" type="text" ng-model="selectedArrivalTime" jqtimepicker/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dateDepartureSelectDate">Departure Date</label>
+                    <div class="form-inline">
+                        <input class="form-control input-small" id="dateDepartureSelectDate" type="text" ng-model="selectedDepartureDate" jqdatepicker/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dateDepartureSelectTime">Departure Time</label>
+                    <div class="form-inline">
+                        <input class="form-control input-small" id="dateDepartureSelectTime" type="text" ng-model="selectedDepartureTime" jqtimepicker/>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-top: 25px">Add Flight</button>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Search for Flight Details</div>
+        <div class="panel-body">
             <form class="form-inline">
                 <div class="form-group">
-                    <label for="gateSelect">Select Gate</label>
+                    <label for="gateSelect">Gate</label>
                     <select class="form-control" name="gateSelect" id="gateSelect" ng-model="selectedGate">
                         <option ng-repeat="g in gates" value="{{g.Id}}">{{g.Name}}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="dateSelect">Select Date</label>
-                    <input class="form-control" id="dateSelect" type="text" ng-model="selectedDate" jqdatepicker/>
+                    <label for="dateSelect">Arrival / Departure Date</label>
+                    <input class="form-control  input-small" id="dateSelect" type="text" ng-model="selectedDate" ng-change="onselectedSearchDateChange()" jqdatepicker/>
                 </div>
                 <button class="btn btn-primary" ng-click="searchFlightDetails()">Search</button>
             </form>
-
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Flight Name</th>
-                    <th>Arrival Date Time</th>
-                    <th>Departure Date Time</th>
-                    <th>Actions</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="d in flightDetails">
-                    <td>{{d.Flight.Name}}</td>
-                    <td>{{d.ArrivalTime | date:'dd/MM/yyyy h:mm a'}}</td>
-                    <td>{{d.DepartureTime | date:'dd/MM/yyyy h:mm a'}}</td>
-                    <td><a href="/Home/EditFlightDetail/{{d.Id}}">View Detail</a></td>
-                </tr>
-                </tbody>
-            </table>
-
         </div>
 
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Flight Name</th>
+                <th>Arrival Date Time</th>
+                <th>Departure Date Time</th>
+                <th>Actions</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="d in flightDetails">
+                <td>{{d.Flight.Name}}</td>
+                <td>{{d.ArrivalTime | date:'dd/MM/yyyy h:mm a'}}</td>
+                <td>{{d.DepartureTime | date:'dd/MM/yyyy h:mm a'}}</td>
+                <td><a href="/Home/EditFlightDetail/{{d.Id}}">View Detail</a></td>
+            </tr>
+            </tbody>
+        </table>
+
     </div>
+
 </div>

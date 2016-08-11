@@ -10,11 +10,6 @@ namespace iasset.web.Controllers
             return View();
         }
 
-        public ActionResult AddNewFlightDetail()
-        {
-            return View();
-        }
-
         public ActionResult EditFlightDetail(Guid id)
         {
             ViewBag.FlightDetailId = id;

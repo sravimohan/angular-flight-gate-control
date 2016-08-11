@@ -6,15 +6,18 @@ div.time-picker {
     border: 1px solid #aaa;
     z-index: 99;
     margin: 0;
+    overflow-x:hidden;
 }
 
 div.time-picker ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
+    overflow-x:hidden;
 }
 
 div.time-picker li {
     cursor: pointer;
-    width: 80px;
+    width: 148px;
+    overflow-x:hidden;
 }

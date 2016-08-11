@@ -38,31 +38,6 @@ app.controller("gateCtrl", function ($scope, $timeout, dataFactory) {
         }, 2000);
     }
 
-    $scope.searchFlightDetails = function () {
-        dataFactory.searchFlightDetails($scope.selectedGate, $scope.selectedDate)
-        .then(function (response) {
-            $scope.flightDetails = response.data;
-        });
-    }
-
-    $scope.addNewFlightDetail = function () {
-
-        var data = {
-            flightId: $scope.selectedFlight,
-            gateId: $scope.selectedGate,
-            arrivalDateTime: $scope.selectedArrivalDate + " " + $scope.selectedArrivalTime,
-            departureDateTime: $scope.selectedDepartureDate + " " + $scope.selectedDepartureTime
-        };
-
-        dataFactory.addNewFlightDetail(data)
-            .then(function (response) {
-                showSuccess();
-                $scope.frmNewFlightDetail.$setPristine();
-            }, function (error) {
-                showFailure(error);
-            });
-    }
-
     var init = function () {
 
         dataFactory.getGates()
@@ -88,6 +63,42 @@ app.controller("gateCtrl", function ($scope, $timeout, dataFactory) {
         $scope.selectedArrivalDateTime = dataFactory.formatDate(new Date());
         $scope.selectedDepartureDateTime = dataFactory.formatDate(new Date());
     };
+
+    $scope.searchFlightDetails = function () {
+        dataFactory.searchFlightDetails($scope.selectedGate, $scope.selectedDate)
+        .then(function (response) {
+            $scope.flightDetails = response.data;
+        });
+    }
+
+    $scope.addNewFlightDetail = function () {
+
+        var data = {
+            flightId: $scope.selectedFlight,
+            gateId: $scope.selectedGate,
+            arrivalDateTime: $scope.selectedArrivalDate + " " + $scope.selectedArrivalTime,
+            departureDateTime: $scope.selectedDepartureDate + " " + $scope.selectedDepartureTime
+        };
+
+        dataFactory.addNewFlightDetail(data)
+            .then(function (response) {
+                showSuccess();
+                $scope.frmNewFlightDetail.$setPristine();
+                $scope.searchFlightDetails();
+            }, function (error) {
+                showFailure(error);
+            });
+    }
+
+    $scope.onselectedArrivalDateChange = function() {
+        $scope.selectedDepartureDate = $scope.selectedArrivalDate;
+        $scope.selectedDate = $scope.selectedArrivalDate;
+    }
+
+    $scope.onselectedSearchDateChange = function () {
+        $scope.selectedDepartureDate = $scope.selectedDate;
+        $scope.selectedArrivalDate = $scope.selectedDate;
+    }
 
     init();
 });
