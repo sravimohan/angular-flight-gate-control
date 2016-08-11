@@ -4,14 +4,25 @@ app.directive("jqdatepicker", function () {
     return {
         restrict: "A",
         require: "ngModel",
-        link: function (scope, element) {
-            element.datepicker({
+        link: function (scope, element, attrs, ctrl) {
+            $(element).datepicker({
                 dateFormat: "d/mm/yy",
                 onSelect: function (date) {
-                    scope.selectedDate = date;
+                    ctrl.$setViewValue(date);
+                    ctrl.$render();
                     scope.$apply();
                 }
             });
+        }
+    };
+});
+
+app.directive("jqtimepicker", function () {
+    return {
+        restrict: "A",
+        require: "ngModel",
+        link: function (scope, element, attrs, ctrl) {
+            $(element).timePicker();
         }
     };
 });

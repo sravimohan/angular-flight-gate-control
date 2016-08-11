@@ -12,7 +12,7 @@
                         <option ng-repeat="g in gates" value="{{g.Id}}">{{g.Name}}</option>
                     </select>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="gateSelect">Select Flight</label>
                     <select class="form-control" name="flightSelect" id="flightSelect" ng-model="selectedFlight">
@@ -21,19 +21,23 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="dateArrivalSelect">Select Arrival Date Time</label>
-                    <input class="form-control" id="dateArrivalSelect" type="datetime" ng-model="selectedArrivalDateTime"/>
-                </div>
 
+                    <label for="dateArrivalSelect">Select Arrival Date Time</label>
+                    <div class="form-inline">
+                        <input class="form-control " id="dateArrivalSelect" type="text" ng-model="selectedArrivalDate" jqdatepicker />
+                        <input class="form-control" id="dateArrivalSelectTime" type="text" ng-model="selectedArrivalTime" jqtimepicker />
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="dateDepartureSelect">Select Departure Date Time</label>
-                    <input class="form-control" id="dateDepartureSelect" type="datetime" ng-model="selectedDepartureDateTime"/>
+                    <div class="form-inline">
+                        <input class="form-control" id="dateDepartureSelecttime" type="text" ng-model="selectedDepartureDate" jqdatepicker />
+                        <input class="form-control" id="dateDepartureSelect" type="text" ng-model="selectedDepartureTime" jqtimepicker />
+                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary" style="margin-top: 25px">Save</button>
             </form>
-
         </div>
-
     </div>
 </div>

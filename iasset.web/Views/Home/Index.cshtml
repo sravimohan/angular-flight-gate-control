@@ -23,8 +23,8 @@
                 <thead>
                 <tr>
                     <th>Flight Name</th>
-                    <th>Arrival Time</th>
-                    <th>Departure Time</th>
+                    <th>Arrival Date Time</th>
+                    <th>Departure Date Time</th>
                     <th>Actions</th>
                     <th></th>
                 </tr>
@@ -32,8 +32,8 @@
                 <tbody>
                 <tr ng-repeat="d in flightDetails">
                     <td>{{d.Flight.Name}}</td>
-                    <td>{{d.ArrivalTime}}</td>
-                    <td>{{d.DepartureTime}}</td>
+                    <td>{{d.ArrivalTime | date:'dd/MM/yyyy h:mm a'}}</td>
+                    <td>{{d.DepartureTime | date:'dd/MM/yyyy h:mm a'}}</td>
                     <td><a href="/Home/EditFlightDetail/{{d.Id}}">View Detail</a></td>
                 </tr>
                 </tbody>

@@ -24,8 +24,8 @@ app.controller("gateCtrl", function ($scope, dataFactory) {
         var data = {
             flightId: $scope.selectedFlight,
             gateId: $scope.selectedGate,
-            arrivalDateTime: $scope.selectedArrivalDateTime,
-            departureDateTime: $scope.selectedDepartureDateTime
+            arrivalDateTime: $scope.selectedArrivalDate + " " +$scope.selectedArrivalTime,
+            departureDateTime: $scope.selectedDepartureDate + " " + $scope.selectedDepartureDate
         };
 
         dataFactory.addNewFlightDetail(data).then(function (response) {
@@ -51,6 +51,8 @@ app.controller("gateCtrl", function ($scope, dataFactory) {
             });
 
         $scope.selectedDate = dataFactory.formatDate(new Date());
+        $scope.selectedArrivalDateTime = dataFactory.formatDate(new Date());
+        $scope.selectedDepartureDateTime = dataFactory.formatDate(new Date());
     };
 
     init();
