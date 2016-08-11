@@ -1,6 +1,6 @@
 ﻿var app = angular.module("gateApp");
 
-app.controller("gateEditCtrl", function ($scope, $http, $window, dataFactory) {
+app.controller("gateEditCtrl", function ($scope, $http, $window, $timeout, dataFactory) {
     $scope.flightDetailId = null;
     $scope.selectedGate = null;
     $scope.selectedFlight = null;
@@ -11,6 +11,32 @@ app.controller("gateEditCtrl", function ($scope, $http, $window, dataFactory) {
     $scope.gates = null;
     $scope.flights = null;
     $scope.flightDetails = null;
+
+    var showSuccess = function (message) {
+        $scope.errorMessage = null;
+
+        if (message == null) {
+            message = "Saved Successfully";
+        }
+
+        $scope.successMessage = message;
+        $timeout(function () {
+            $scope.successMessage = null;
+        }, 2000);
+    }
+
+    var showFailure = function (message) {
+        $scope.successMessage = null;
+
+        if (message == null) {
+            message = "Failed";
+        }
+
+        $scope.errorMessage = message;
+        $timeout(function () {
+            $scope.errorMessage = null;
+        }, 2000);
+    }
 
     dataFactory.getGates()
     .then(function (response) {
@@ -46,12 +72,13 @@ app.controller("gateEditCtrl", function ($scope, $http, $window, dataFactory) {
 
         dataFactory.saveFlightDetail(data)
             .then(function (response) {
-                alert("saved");
+                showSuccess();
+            }, function(error) {
+                showFailure(error);
             });
     }
 
     $scope.cancelFlight = function () {
-
         dataFactory.cancelFlight($scope.flightDetailId)
             .then(function (response) {
             $window.location.href = "/";

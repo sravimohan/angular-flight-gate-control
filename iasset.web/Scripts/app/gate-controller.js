@@ -1,6 +1,6 @@
 ﻿var app = angular.module("gateApp");
 
-app.controller("gateCtrl", function ($scope, dataFactory) {
+app.controller("gateCtrl", function ($scope, $timeout, dataFactory) {
     $scope.flightDetailId = null;
     $scope.selectedGate = null;
     $scope.selectedFlight = null;
@@ -11,6 +11,32 @@ app.controller("gateCtrl", function ($scope, dataFactory) {
     $scope.gates = null;
     $scope.flights = null;
     $scope.flightDetails = null;
+
+    var showSuccess = function (message) {
+        $scope.errorMessage = null;
+
+        if (message == null) {
+            message = "Saved Successfully";
+        }
+
+        $scope.successMessage = message;
+        $timeout(function () {
+            $scope.successMessage = null;
+        }, 2000);
+    }
+
+    var showFailure = function (message) {
+        $scope.successMessage = null;
+
+        if (message == null) {
+            message = "Failed";
+        }
+
+        $scope.errorMessage = message;
+        $timeout(function () {
+            $scope.errorMessage = null;
+        }, 2000);
+    }
 
     $scope.searchFlightDetails = function () {
         dataFactory.searchFlightDetails($scope.selectedGate, $scope.selectedDate)
@@ -24,13 +50,17 @@ app.controller("gateCtrl", function ($scope, dataFactory) {
         var data = {
             flightId: $scope.selectedFlight,
             gateId: $scope.selectedGate,
-            arrivalDateTime: $scope.selectedArrivalDate + " " +$scope.selectedArrivalTime,
+            arrivalDateTime: $scope.selectedArrivalDate + " " + $scope.selectedArrivalTime,
             departureDateTime: $scope.selectedDepartureDate + " " + $scope.selectedDepartureTime
         };
 
-        dataFactory.addNewFlightDetail(data).then(function (response) {
-            $scope.frmNewFlightDetail.$setPristine();
-        });
+        dataFactory.addNewFlightDetail(data)
+            .then(function (response) {
+                showSuccess();
+                $scope.frmNewFlightDetail.$setPristine();
+            }, function (error) {
+                showFailure(error);
+            });
     }
 
     var init = function () {
