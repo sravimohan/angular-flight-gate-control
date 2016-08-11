@@ -25,7 +25,7 @@ app.controller("gateCtrl", function ($scope, dataFactory) {
             flightId: $scope.selectedFlight,
             gateId: $scope.selectedGate,
             arrivalDateTime: $scope.selectedArrivalDate + " " +$scope.selectedArrivalTime,
-            departureDateTime: $scope.selectedDepartureDate + " " + $scope.selectedDepartureDate
+            departureDateTime: $scope.selectedDepartureDate + " " + $scope.selectedDepartureTime
         };
 
         dataFactory.addNewFlightDetail(data).then(function (response) {

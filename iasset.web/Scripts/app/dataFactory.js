@@ -43,6 +43,11 @@
             return [day, month, year].join("/");
         }
 
+        dataFactory.formatTime = function (date) {
+            var d = new Date(date);
+            return [d.getHours(), d.getMinutes()].join(":");
+        }
+
         dataFactory.formatDateApi = function (date) {
             var d = date.split("/");
             return [d[2], d[1], d[0]].join("-");

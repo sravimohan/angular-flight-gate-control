@@ -28,8 +28,10 @@ app.controller("gateEditCtrl", function ($scope, $http, $window, dataFactory) {
                 var data = response.data;
                 $scope.selectedGate = data.Gate.Id;
                 $scope.selectedFlight = data.Flight.Id;
-                $scope.selectedArrivalDateTime = data.ArrivalTime;
-                $scope.selectedDepartureDateTime = data.DepartureTime;
+                $scope.selectedArrivalDate = dataFactory.formatDate(data.ArrivalTime);
+                $scope.selectedArrivalTime = dataFactory.formatTime(data.ArrivalTime);
+                $scope.selectedDepartureDate = dataFactory.formatDate(data.DepartureTime);
+                $scope.selectedDepartureTime = dataFactory.formatTime(data.DepartureTime);
         });
     }
     
@@ -38,13 +40,14 @@ app.controller("gateEditCtrl", function ($scope, $http, $window, dataFactory) {
             flightDetailId: $scope.flightDetailId,
             flightId: $scope.selectedFlight,
             gateId: $scope.selectedGate,
-            arrivalDateTime: $scope.selectedArrivalDateTime,
-            departureDateTime: $scope.selectedDepartureDateTime
+            arrivalDateTime: $scope.selectedArrivalDate + " " + $scope.selectedArrivalTime,
+            departureDateTime: $scope.selectedDepartureDate + " " + $scope.selectedDepartureTime
         };
 
         dataFactory.saveFlightDetail(data)
             .then(function (response) {
-        });
+                alert("saved");
+            });
     }
 
     $scope.cancelFlight = function () {
