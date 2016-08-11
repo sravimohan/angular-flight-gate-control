@@ -21,25 +21,19 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-
-                    @if (Request.IsAuthenticated)
-                    {
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Add New Flight", "AddNewFlightDetail", "Home")</li>
-                    }
-
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Add New Flight", "AddNewFlightDetail", "Home")</li>
                 </ul>
-                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
-<div class="container body-content" style="padding: 20px">
-    
-    @RenderBody()
-    <footer>
-        <p>&copy; @DateTime.Now.Year - Gate Manager - ravi.mohan@roonga.com.au</p>
-    </footer>
-</div>
+    <div class="container body-content" style="padding: 20px">
+
+        @RenderBody()
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Gate Manager - ravi.mohan@roonga.com.au</p>
+        </footer>
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
