@@ -56,12 +56,12 @@ namespace iasset.tests
             var gate = _flightGateService.GetAllGates().First();
             var arrival = new DateTime(2016, 8, 25, 10, 0, 0);
             var departure = new DateTime(2016, 8, 25, 10, 30, 0);
-            var flightDetailId = _flightGateService.AddFlightDetail(flight.Id, gate.Id, arrival, departure);
+            var response = _flightGateService.AddFlightDetail(flight.Id, gate.Id, arrival, departure);
 
             //act
             var updatedArrival = new DateTime(2016, 8, 26, 11, 0, 0);
             var updatedDeparture = new DateTime(2016, 8, 26, 10, 30, 0);
-            _flightGateService.UpdateFlightDetail(flightDetailId, flight.Id, gate.Id, updatedArrival, updatedDeparture);
+            _flightGateService.UpdateFlightDetail(response.FlightDetailId, flight.Id, gate.Id, updatedArrival, updatedDeparture);
 
             //assert
             var updatedFlight = _flightGateService.GetFlightDetails(gate.Id, updatedArrival).First();
@@ -78,7 +78,7 @@ namespace iasset.tests
             var gate = _flightGateService.GetAllGates().First();
             var arrival = new DateTime(2016, 8, 28, 10, 0, 0);
             var departure = new DateTime(2016, 8, 28, 10, 30, 0);
-            var flightDetailId = _flightGateService.AddFlightDetail(flight.Id, gate.Id, arrival, departure);
+            var response = _flightGateService.AddFlightDetail(flight.Id, gate.Id, arrival, departure);
 
             //pre-assert
             var preflights = _flightGateService.GetFlightDetails(gate.Id, arrival);
@@ -86,7 +86,7 @@ namespace iasset.tests
             Assert.AreEqual(1, preflights.Count());
 
             //act
-            _flightGateService.CancelFlightDetail(flightDetailId);
+            _flightGateService.CancelFlightDetail(response.FlightDetailId);
 
             //assert
             var flights = _flightGateService.GetFlightDetails(gate.Id, arrival);

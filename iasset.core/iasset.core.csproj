@@ -51,6 +51,11 @@
   <ItemGroup>
     <Compile Include="FlightDetail.cs" />
     <Compile Include="Flight.cs" />
+    <Compile Include="FlightSchedulingException.cs" />
+    <Compile Include="Schedule\FlightScheduleManager.cs" />
+    <Compile Include="Repository\IFlightGateRepository.cs" />
+    <Compile Include="Schedule\IFlightScheduleManager.cs" />
+    <Compile Include="Services\FlightScheduleResponse.cs" />
     <Compile Include="Services\FlightGateService.cs" />
     <Compile Include="Gate.cs" />
     <Compile Include="Services\IFlightGateService.cs" />

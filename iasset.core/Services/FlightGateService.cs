@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using iasset.core.Repository;
+using iasset.core.Schedule;
 
 namespace iasset.core.Services
 {
     public class FlightGateService : IFlightGateService
     {
-        private readonly Repository.FlightGateRepository _flightGateRepository;
+        private readonly IFlightGateRepository _flightGateRepository;
 
         public FlightGateService()
         {
-            _flightGateRepository = new Repository.FlightGateRepository();
+            _flightGateRepository = new FlightGateRepository();
         }
 
         public IEnumerable<FlightDetail> GetAllFlightDetails()
@@ -22,8 +24,8 @@ namespace iasset.core.Services
         {
             var qry = _flightGateRepository.FlightDetails.AsQueryable()
                 .Where(d => d.Gate.Id.Equals(gateId) 
-                && ((d.ArrivalTime.Year >= date.Year &&  d.ArrivalTime.Month == date.Month && d.ArrivalTime.Day == date.Day) 
-                || (d.DepartureTime.Year >= date.Year && d.DepartureTime.Month == date.Month && d.DepartureTime.Day == date.Day))).Distinct();
+                && ((d.ArrivalTime.Year == date.Year &&  d.ArrivalTime.Month == date.Month && d.ArrivalTime.Day == date.Day) 
+                || (d.DepartureTime.Year == date.Year && d.DepartureTime.Month == date.Month && d.DepartureTime.Day == date.Day))).Distinct();
 
             return qry.AsEnumerable();
         }
@@ -47,8 +49,10 @@ namespace iasset.core.Services
             return flightDetail;
         }
 
-        public Guid AddFlightDetail(Guid flightId, Guid gateId, DateTime arrivalDateTime, DateTime departureDateTime)
+        public FlightScheduleResponse AddFlightDetail(Guid flightId, Guid gateId, DateTime arrivalDateTime, DateTime departureDateTime)
         {
+            var response = new FlightScheduleResponse();
+
             var gate = _flightGateRepository.Gates.First(g => g.Id.Equals(gateId));
             if (gate == null)
                 throw new ArgumentException("Invalid Gate Id");
@@ -56,6 +60,9 @@ namespace iasset.core.Services
             var flight = _flightGateRepository.Flights.First(f => f.Id.Equals(flightId));
             if (flight == null)
                 throw new ArgumentException("Invalid Flight Id");
+
+            if (departureDateTime == default(DateTime))
+                departureDateTime = arrivalDateTime.AddMinutes(29);
 
             var flightDetailId = Guid.NewGuid();
             var flightDetail = new FlightDetail
@@ -67,8 +74,39 @@ namespace iasset.core.Services
                 Flight = flight
             };
 
-            _flightGateRepository.FlightDetails.Add(flightDetail);
-            return flightDetailId;
+            var scheduleManager = new FlightScheduleManager(_flightGateRepository);
+            var isConflict = scheduleManager.IsConflict(flightDetail);
+
+            if (isConflict)
+            {
+                ResolveConflict(response, scheduleManager, flightDetail);
+            }
+            else
+            {
+                _flightGateRepository.FlightDetails.Add(flightDetail);
+                response.IsSuccess = true;
+            }
+
+            response.FlightDetailId = flightDetailId;
+            return response;
+        }
+
+        private void ResolveConflict(FlightScheduleResponse response, IFlightScheduleManager scheduleManager, FlightDetail flightDetail)
+        {
+            var newGate = scheduleManager.FindAlternativeGate(flightDetail);
+            if (newGate != null)
+            {
+                flightDetail.Gate = newGate;
+                _flightGateRepository.FlightDetails.Add(flightDetail);
+
+                response.IsSuccess = true;
+                response.Message = $"Saved Successfully. But flight secheduled to " + newGate.Name + " due to a scheduling conflict";
+                return;
+            }
+
+            scheduleManager.AddAndRescheduleOtherFlights(flightDetail);
+            response.IsSuccess = true;
+            response.Message = $"Saved Successfully. But other flights had to be re-secheduled.";
         }
 
         public void UpdateFlightDetail(Guid flightDetailId, Guid flightId, Guid gateId, DateTime arrivalDateTime, DateTime departureDateTime)

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace iasset.core.Repository
 {
-    public class FlightGateRepository
+    public class FlightGateRepository : IFlightGateRepository
     {
         private static IList<Flight> _flights;
         private static IList<Gate> _gates;
@@ -16,14 +16,17 @@ namespace iasset.core.Repository
 
         public FlightGateRepository()
         {
-            InitData();
+            if (_flights == null)
+                InitData();
         }
 
-        private void InitData()
+        public static void ClearFlightDetails()
         {
-            if(_flights != null)
-                return;
+            _flightDetails = new List<FlightDetail>();
+        }
 
+        public void InitData()
+        {
             _flights = new List<Flight>
             {
                 new Flight {Id = new Guid("700225B1-E4E7-4726-A2E0-B09CB1E78808"), Name = "Flight A" },
