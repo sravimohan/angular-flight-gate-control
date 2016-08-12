@@ -70,7 +70,8 @@ namespace iasset.tests
             };
 
             //act
-            var result = new FlightScheduleManager(new FlightGateRepository()).FindAlternativeGate(conflictFlightDetail);
+            var result = new FlightScheduleManager(new FlightGateRepository())
+                .FindAlternativeGate(conflictFlightDetail.Gate, conflictFlightDetail.ArrivalTime, conflictFlightDetail.DepartureTime);
 
             //assert
             Assert.IsNotNull(result);

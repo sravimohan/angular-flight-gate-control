@@ -30,7 +30,20 @@ namespace iasset.core.Schedule
             return flightConflictQry.Any();
         }
 
-        private IEnumerable<FlightDetail> GetConflictingFlightDetails(FlightDetail flightDetail)
+        private IEnumerable<FlightDetail> GetConflictingFlights(FlightDetail flightDetail)
+        {
+            var flightsQry = _flightDetails
+                .Where(d => d.Gate.Id.Equals(flightDetail.Gate.Id)
+                            && (d.ArrivalTime.Year == flightDetail.ArrivalTime.Year
+                                && d.ArrivalTime.Month == flightDetail.ArrivalTime.Month
+                                && d.ArrivalTime.Day == flightDetail.ArrivalTime.Day))
+                .OrderBy(d => d.ArrivalTime)
+                .AsQueryable();
+
+            return flightsQry.Where(f => (f.ArrivalTime <= flightDetail.DepartureTime) && (f.DepartureTime >= flightDetail.ArrivalTime));
+        }
+
+        private IEnumerable<FlightDetail> GetFollowingFlightDetails(FlightDetail flightDetail)
         {
             var flightsQry = _flightGateRepository.FlightDetails
                 .Where(d => d.Gate.Id.Equals(flightDetail.Gate.Id)
@@ -40,21 +53,29 @@ namespace iasset.core.Schedule
                 .OrderBy(d => d.ArrivalTime)
                 .AsQueryable();
 
-            return flightsQry.Where(f => flightDetail.ArrivalTime >= f.ArrivalTime && f.ArrivalTime <= f.DepartureTime);
+            return flightsQry.Where(f => f.ArrivalTime >= flightDetail.ArrivalTime);
         }
 
         public bool AddAndRescheduleOtherFlights(FlightDetail flightDetail)
         {
             var conflictingFlights = RemoveConflictingFlights(flightDetail);
             AddCurrentFlight(flightDetail);
-            ReschduleConflictingFlights(conflictingFlights);
+            RescheduleConflictingFlights(conflictingFlights);
+
             UpdateRepository();
             return true;
         }
 
-        public Gate FindAlternativeGate(FlightDetail flightDetail)
+        public Gate FindAlternativeGate(Gate currentGate, DateTime arrivalTime, DateTime departureTime)
         {
-            foreach (var gate in _flightGateRepository.Gates.Where(g => g.Id != flightDetail.Gate.Id))
+            var flightDetail = new FlightDetail
+            {
+                ArrivalTime = arrivalTime,
+                DepartureTime = departureTime,
+                Gate = currentGate
+            };
+
+            foreach (var gate in _flightGateRepository.Gates.Where(g => g.Id != currentGate.Id))
             {
                 flightDetail.Gate = gate;
 
@@ -67,14 +88,10 @@ namespace iasset.core.Schedule
 
         private void UpdateRepository()
         {
-            _flightGateRepository.FlightDetails.Clear();
-            foreach (var existingFlightDetail in _flightDetails)
-            {
-                _flightGateRepository.FlightDetails.Add(existingFlightDetail);
-            }
+            _flightGateRepository.FlightDetails = _flightDetails;
         }
 
-        private void ReschduleConflictingFlights(IEnumerable<FlightDetail> conflictingFlights)
+        private void RescheduleConflictingFlights(IEnumerable<FlightDetail> conflictingFlights)
         {
             foreach (var conflictingFlight in conflictingFlights)
             {
@@ -93,12 +110,16 @@ namespace iasset.core.Schedule
 
         private IEnumerable<FlightDetail> RemoveConflictingFlights(FlightDetail flightDetail)
         {
-            var conflictingFlights = GetConflictingFlightDetails(flightDetail).ToList();
-            foreach (var conflictingFlight in conflictingFlights)
+            var conflictingFlights = GetConflictingFlights(flightDetail);
+            var followingFlights = GetFollowingFlightDetails(flightDetail);
+            var removedFlights = conflictingFlights.Union(followingFlights).Distinct().ToList();
+
+            foreach (var flight in removedFlights)
             {
-                _flightDetails.Remove(conflictingFlight);
+                _flightDetails.Remove(flight);
             }
-            return conflictingFlights;
+
+            return removedFlights;
         }
 
         private FlightDetail FindNextAvailableSlot(FlightDetail flightDetail)

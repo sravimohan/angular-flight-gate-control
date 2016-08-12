@@ -4,6 +4,7 @@ using System.Web.Http;
 using System.Web.Http.Results;
 using iasset.core;
 using iasset.core.Services;
+using iasset.web.Models;
 
 namespace iasset.web.Controllers
 {
@@ -28,33 +29,17 @@ namespace iasset.web.Controllers
             return Json(_flightGateService.GetFlightDetail(id));
         }
 
-        public class FlightDetailPost
-        {
-            public Guid flightDetailId;
-            public Guid flightId;
-            public Guid gateId;
-            public DateTime arrivalDateTime;
-            public DateTime departureDateTime;
-        }
-
         // POST: api/FlightDetail
         public void Post([FromBody]FlightDetailPost input)
         {
             _flightGateService.UpdateFlightDetail(input.flightDetailId, input.flightId, input.gateId, input.arrivalDateTime, input.departureDateTime);
         }
 
-        public class FlightDetailPut
-        {
-            public Guid flightId;
-            public Guid gateId;
-            public DateTime arrivalDateTime;
-            public DateTime departureDateTime;
-        }
-
         // PUT: api/FlightDetail/5
-        public void Put([FromBody]FlightDetailPut input)
+        public JsonResult<FlightScheduleResponse> Put([FromBody]FlightDetailPut input)
         {
-            _flightGateService.AddFlightDetail(input.flightId, input.gateId, input.arrivalDateTime, input.departureDateTime);
+            var response = _flightGateService.AddFlightDetail(input.flightId, input.gateId, input.arrivalDateTime, input.departureDateTime);
+            return Json(response);
         }
 
         // DELETE: api/FlightDetail/5

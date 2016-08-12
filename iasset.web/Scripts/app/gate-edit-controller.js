@@ -52,6 +52,7 @@ app.controller("gateEditCtrl", function ($scope, $http, $window, $timeout, dataF
         dataFactory.getFlightDetails($scope.flightDetailId)
             .then(function (response) {
                 var data = response.data;
+
                 $scope.selectedGate = data.Gate.Id;
                 $scope.selectedFlight = data.Flight.Id;
                 $scope.selectedArrivalDate = dataFactory.formatDate(data.ArrivalTime);

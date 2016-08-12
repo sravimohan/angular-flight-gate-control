@@ -25,19 +25,20 @@ namespace iasset.core.Services
             var qry = _flightGateRepository.FlightDetails.AsQueryable()
                 .Where(d => d.Gate.Id.Equals(gateId) 
                 && ((d.ArrivalTime.Year == date.Year &&  d.ArrivalTime.Month == date.Month && d.ArrivalTime.Day == date.Day) 
-                || (d.DepartureTime.Year == date.Year && d.DepartureTime.Month == date.Month && d.DepartureTime.Day == date.Day))).Distinct();
+                || (d.DepartureTime.Year == date.Year && d.DepartureTime.Month == date.Month && d.DepartureTime.Day == date.Day)))
+                .Distinct().OrderBy(f => f.ArrivalTime);
 
             return qry.AsEnumerable();
         }
 
         public IEnumerable<Gate> GetAllGates()
         {
-            return _flightGateRepository.Gates;
+            return _flightGateRepository.Gates.OrderBy(g => g.Name);
         }
 
         public IEnumerable<Flight> GetAllFlights()
         {
-            return _flightGateRepository.Flights;
+            return _flightGateRepository.Flights.OrderBy(f => f.Name);
         }
 
         public FlightDetail GetFlightDetail(Guid flightDetailId)
@@ -93,7 +94,7 @@ namespace iasset.core.Services
 
         private void ResolveConflict(FlightScheduleResponse response, IFlightScheduleManager scheduleManager, FlightDetail flightDetail)
         {
-            var newGate = scheduleManager.FindAlternativeGate(flightDetail);
+            var newGate = scheduleManager.FindAlternativeGate(flightDetail.Gate, flightDetail.ArrivalTime, flightDetail.DepartureTime);
             if (newGate != null)
             {
                 flightDetail.Gate = newGate;

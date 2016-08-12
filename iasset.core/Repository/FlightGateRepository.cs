@@ -12,12 +12,16 @@ namespace iasset.core.Repository
 
         public IList<Flight> Flights => _flights;
         public IList<Gate> Gates => _gates;
-        public IList<FlightDetail> FlightDetails => _flightDetails;
+
+        public IList<FlightDetail> FlightDetails
+        {
+            get { return _flightDetails; }
+            set { _flightDetails = value; }
+        }
 
         public FlightGateRepository()
         {
-            if (_flights == null)
-                InitData();
+            InitData();
         }
 
         public static void ClearFlightDetails()
@@ -27,7 +31,10 @@ namespace iasset.core.Repository
 
         public void InitData()
         {
-            _flights = new List<Flight>
+            if (_flights != null)
+                return;
+
+                _flights = new List<Flight>
             {
                 new Flight {Id = new Guid("700225B1-E4E7-4726-A2E0-B09CB1E78808"), Name = "Flight A" },
                 new Flight {Id = new Guid("96AD0D4C-8AEB-4122-B4E0-977B452746D9"), Name = "Flight B" },

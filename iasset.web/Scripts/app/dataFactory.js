@@ -45,7 +45,17 @@
 
         dataFactory.formatTime = function (date) {
             var d = new Date(date);
-            return [d.getHours(), d.getMinutes()].join(":");
+
+            var h = d.getUTCHours();
+            var m = d.getUTCMinutes();
+
+            if (h < 10)
+                h = "0" + h;
+
+            if (m < 10)
+                m = "0" + m;
+
+            return [h, m].join(":");
         }
 
         dataFactory.formatDateApi = function (date) {

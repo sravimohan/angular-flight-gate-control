@@ -22,7 +22,7 @@ app.controller("gateCtrl", function ($scope, $timeout, dataFactory) {
         $scope.successMessage = message;
         $timeout(function () {
             $scope.successMessage = null;
-        }, 2000);
+        }, 10000);
     }
 
     var showFailure = function (message) {
@@ -33,9 +33,6 @@ app.controller("gateCtrl", function ($scope, $timeout, dataFactory) {
         }
 
         $scope.errorMessage = message;
-        $timeout(function () {
-            $scope.errorMessage = null;
-        }, 2000);
     }
 
     var init = function () {
@@ -82,7 +79,12 @@ app.controller("gateCtrl", function ($scope, $timeout, dataFactory) {
 
         dataFactory.addNewFlightDetail(data)
             .then(function (response) {
-                showSuccess();
+                var result = response.data;
+                if (result.IsSuccess) {
+                    showSuccess(result.Message);
+                } else {
+                    showFailure(result.Message);
+                }
                 $scope.frmNewFlightDetail.$setPristine();
                 $scope.searchFlightDetails();
             }, function (error) {
