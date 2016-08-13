@@ -8,6 +8,7 @@
         {{errorMessage}}
     </div>
 
+    <!-- Add -->
     <div class="panel panel-default">
         <!-- Default panel contents -->
         <div class="panel-heading">Add Flight to Gate</div>
@@ -60,6 +61,8 @@
             </form>
         </div>
     </div>
+
+    <!-- List -->
     <div class="panel panel-default">
         <!-- Default panel contents -->
         <div class="panel-heading">Search for Flight Details</div>
@@ -95,11 +98,70 @@
                 <td>{{d.Flight.Name}}</td>
                 <td>{{d.ArrivalTime | date:'dd/MM/yyyy h:mm a'}}</td>
                 <td>{{d.DepartureTime | date:'dd/MM/yyyy h:mm a'}}</td>
-                <td><a class="btn btn-primary btn-sm" role="button" href="/Home/EditFlightDetail/{{d.Id}}">Edit / Cancel Flight Details</a></td>
+                <td><a class="btn btn-primary btn-sm" role="button" ng-click="onEditFlightDetail(d.Id)">Edit / Cancel Flight Details</a></td>
             </tr>
             </tbody>
         </table>
 
     </div>
 
+    <!-- Edit -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form class="form" ng-submit="saveFlightDetail()" name="frmNewFlightDetail">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Edit Flight Details</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div ng-show="editSuccessMessage != null" class="alert alert-success">
+                            {{editSuccessMessage}}
+                        </div>
+
+                        <div ng-show="editErrorMessage != null" class="alert alert-danger">
+                            {{editErrorMessage}}
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="gateSelect">Select Gate</label>
+                            <select class="form-control" name="gateSelect" id="editGateSelect" ng-model="editSelectedGate" ng-selected="editSelectedGate">
+                                <option ng-repeat="g in gates" value="{{g.Id}}">{{g.Name}}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gateSelect">Select Flight</label>
+                            <select class="form-control" name="flightSelect" id="editFlightSelect" ng-model="editSelectedFlight">
+                                <option ng-repeat="f in flights" value="{{f.Id}}">{{f.Name}}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dateArrivalSelect">Select Arrival Date Time</label>
+                            <div class="form-inline">
+                                <input class="form-control input-small" id="dateArrivalSelect" type="text" ng-model="editSelectedArrivalDate" jqdatepicker />
+                                <input class="form-control input-small" id="dateArrivalSelectTime" type="text" ng-model="editSelectedArrivalTime" jqtimepicker />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dateDepartureSelect">Select Departure Date Time</label>
+                            <div class="form-inline">
+                                <input class="form-control input-small" id="dateDepartureSelecttime" type="text" ng-model="editSelectedDepartureDate" jqdatepicker />
+                                <input class="form-control input-small" id="dateDepartureSelect" type="text" ng-model="editSelectedDepartureTime" jqtimepicker />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button ng-click="cancelFlight()" class="btn btn-danger pull-left" type="button">Cancel Flight</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
+

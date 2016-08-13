@@ -35,6 +35,36 @@ app.controller("gateCtrl", function ($scope, $timeout, dataFactory) {
         $scope.errorMessage = message;
     }
 
+    var showEditSuccess = function (message) {
+        $scope.editErrorMessage = null;
+
+        if (message == null) {
+            message = "Saved Successfully";
+        }
+
+        $scope.editErrorMessage = null;
+        $scope.editSuccessMessage = message;
+
+        $timeout(function () {
+            $scope.editSuccessMessage = null;
+        }, 2000);
+    }
+
+    var showEditFailure = function (message) {
+        $scope.editSuccessMessage = null;
+
+        if (message == null) {
+            message = "Failed";
+        }
+
+        $scope.editSuccessMessage = null;
+        $scope.editErrorMessage = message;
+
+        $timeout(function () {
+            $scope.editErrorMessage = null;
+        }, 2000);
+    }
+
     var init = function () {
 
         dataFactory.getGates()
@@ -100,6 +130,50 @@ app.controller("gateCtrl", function ($scope, $timeout, dataFactory) {
     $scope.onselectedSearchDateChange = function () {
         $scope.selectedDepartureDate = $scope.selectedDate;
         $scope.selectedArrivalDate = $scope.selectedDate;
+    }
+
+    $scope.onEditFlightDetail = function (flightDetailId) {
+        $scope.editFlightDetailId = flightDetailId;
+        $scope.getFlightDetails(flightDetailId);
+        $("#myModal").modal("show");
+    }
+
+    $scope.getFlightDetails = function (flightDetailId) {
+        dataFactory.getFlightDetails(flightDetailId)
+            .then(function (response) {
+                var data = response.data;
+                $scope.editSelectedGate = data.Gate.Id;
+                $scope.editSelectedFlight = data.Flight.Id;
+                $scope.editSelectedArrivalDate = dataFactory.formatDate(data.ArrivalTime);
+                $scope.editSelectedArrivalTime = dataFactory.formatTime(data.ArrivalTime);
+                $scope.editSelectedDepartureDate = dataFactory.formatDate(data.DepartureTime);
+                $scope.editSelectedDepartureTime = dataFactory.formatTime(data.DepartureTime);
+            });
+    }
+
+    $scope.saveFlightDetail = function () {
+        var data = {
+            flightDetailId: $scope.editFlightDetailId,
+            flightId: $scope.editSelectedFlight,
+            gateId: $scope.editSelectedGate,
+            arrivalDateTime: $scope.editSelectedArrivalDate + " " + $scope.editSelectedArrivalTime,
+            departureDateTime: $scope.editSelectedDepartureDate + " " + $scope.editSelectedDepartureTime
+        };
+
+        dataFactory.saveFlightDetail(data)
+            .then(function (response) {
+                showEditSuccess();
+                $scope.searchFlightDetails();
+            }, function (error) {
+                showEditFailure(error);
+            });
+    }
+
+    $scope.cancelFlight = function () {
+        dataFactory.cancelFlight($scope.editFlightDetailId)
+            .then(function (response) {
+                $window.location.href = "/";
+            });
     }
 
     init();
