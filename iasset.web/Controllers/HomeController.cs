@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace iasset.web.Controllers
 {
@@ -7,12 +6,6 @@ namespace iasset.web.Controllers
     {
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult EditFlightDetail(Guid id)
-        {
-            ViewBag.FlightDetailId = id;
             return View();
         }
     }

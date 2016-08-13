@@ -52,6 +52,11 @@ namespace iasset.core.Services
 
         public FlightScheduleResponse AddFlightDetail(Guid flightId, Guid gateId, DateTime arrivalDateTime, DateTime departureDateTime)
         {
+            if (departureDateTime == default(DateTime))
+                departureDateTime = arrivalDateTime.AddMinutes(29);
+
+            Guard.AddFlightDetails(arrivalDateTime, departureDateTime);
+
             var response = new FlightScheduleResponse();
 
             var gate = _flightGateRepository.Gates.First(g => g.Id.Equals(gateId));
@@ -61,9 +66,6 @@ namespace iasset.core.Services
             var flight = _flightGateRepository.Flights.First(f => f.Id.Equals(flightId));
             if (flight == null)
                 throw new ArgumentException("Invalid Flight Id");
-
-            if (departureDateTime == default(DateTime))
-                departureDateTime = arrivalDateTime.AddMinutes(29);
 
             var flightDetailId = Guid.NewGuid();
             var flightDetail = new FlightDetail
@@ -75,7 +77,7 @@ namespace iasset.core.Services
                 Flight = flight
             };
 
-            var scheduleManager = new FlightScheduleManager(_flightGateRepository);
+            var scheduleManager = new FlightScheduleManager(_flightGateRepository, false);
             var isConflict = scheduleManager.IsConflict(flightDetail);
 
             if (isConflict)
@@ -110,8 +112,14 @@ namespace iasset.core.Services
             response.Message = $"Saved Successfully. But other flights had to be re-secheduled.";
         }
 
-        public void UpdateFlightDetail(Guid flightDetailId, Guid flightId, Guid gateId, DateTime arrivalDateTime, DateTime departureDateTime)
+        public FlightScheduleResponse UpdateFlightDetail(Guid flightDetailId, Guid flightId, Guid gateId, DateTime arrivalDateTime, DateTime departureDateTime)
         {
+            if (departureDateTime == default(DateTime))
+                departureDateTime = arrivalDateTime.AddMinutes(29);
+
+            var response = new FlightScheduleResponse();
+            Guard.AddFlightDetails(arrivalDateTime, departureDateTime);
+
             var flightDetail = _flightGateRepository.FlightDetails.FirstOrDefault(d => d.Id.Equals(flightDetailId));
             if (flightDetail == null)
                 throw new ArgumentException("Invalid Flight Detail Id");
@@ -128,6 +136,18 @@ namespace iasset.core.Services
             flightDetail.DepartureTime = departureDateTime;
             flightDetail.Gate = gate;
             flightDetail.Flight = flight;
+
+            var scheduleManager = new FlightScheduleManager(_flightGateRepository, true);
+            var isConflict = scheduleManager.IsConflict(flightDetail);
+
+            if (isConflict)
+            {
+                ResolveConflict(response, scheduleManager, flightDetail);
+            }
+
+            response.IsSuccess = true;
+            response.FlightDetailId = flightDetailId;
+            return response;
         }
 
         public void CancelFlightDetail(Guid flightDetailId)

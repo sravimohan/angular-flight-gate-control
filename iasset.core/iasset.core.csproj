@@ -58,6 +58,7 @@
     <Compile Include="Services\FlightScheduleResponse.cs" />
     <Compile Include="Services\FlightGateService.cs" />
     <Compile Include="Gate.cs" />
+    <Compile Include="Services\Guard.cs" />
     <Compile Include="Services\IFlightGateService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\FlightGateRepository.cs" />

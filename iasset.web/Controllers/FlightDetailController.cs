@@ -30,9 +30,29 @@ namespace iasset.web.Controllers
         }
 
         // POST: api/FlightDetail
-        public void Post([FromBody]FlightDetailPost input)
+        public JsonResult<FlightScheduleResponse> Post([FromBody]FlightDetailPost input)
         {
-            _flightGateService.UpdateFlightDetail(input.flightDetailId, input.flightId, input.gateId, input.arrivalDateTime, input.departureDateTime);
+            try
+            {
+                var response = _flightGateService.UpdateFlightDetail(input.flightDetailId, input.flightId, input.gateId, input.arrivalDateTime, input.departureDateTime);
+                return Json(response);
+            }
+            catch (ArgumentException exception)
+            {
+                var response = new FlightScheduleResponse { IsSuccess = false, Message = exception.Message };
+                return Json(response);
+            }
+            catch (FlightSchedulingException)
+            {
+                var response = new FlightScheduleResponse { IsSuccess = false, Message = "Unable to Add Flight due to scheduling conflict." };
+                return Json(response);
+            }
+            catch
+            {
+                var response = new FlightScheduleResponse { IsSuccess = false, Message = "Update Failed." };
+                return Json(response);
+            }
+            
         }
 
         // PUT: api/FlightDetail/5
@@ -40,12 +60,23 @@ namespace iasset.web.Controllers
         {
             try
             {
-                var response = _flightGateService.AddFlightDetail(input.flightId, input.gateId, input.arrivalDateTime, input.departureDateTime);
+                var response = _flightGateService.AddFlightDetail(input.flightId, input.gateId, input.arrivalDateTime,
+                    input.departureDateTime);
+                return Json(response);
+            }
+            catch (ArgumentException exception)
+            {
+                var response = new FlightScheduleResponse { IsSuccess = false, Message = exception.Message};
                 return Json(response);
             }
             catch (FlightSchedulingException)
             {
                 var response = new FlightScheduleResponse {IsSuccess = false, Message = "Unable to Add Flight due to scheduling conflict."};
+                return Json(response);
+            }
+            catch
+            {
+                var response = new FlightScheduleResponse { IsSuccess = false, Message = "Update Failed." };
                 return Json(response);
             }
         }

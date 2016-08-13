@@ -47,7 +47,7 @@ app.controller("gateCtrl", function ($scope, $timeout, dataFactory) {
 
         $timeout(function () {
             $scope.editSuccessMessage = null;
-        }, 2000);
+        }, 8000);
     }
 
     var showEditFailure = function (message) {
@@ -62,7 +62,7 @@ app.controller("gateCtrl", function ($scope, $timeout, dataFactory) {
 
         $timeout(function () {
             $scope.editErrorMessage = null;
-        }, 2000);
+        }, 8000);
     }
 
     var init = function () {
@@ -162,17 +162,23 @@ app.controller("gateCtrl", function ($scope, $timeout, dataFactory) {
 
         dataFactory.saveFlightDetail(data)
             .then(function (response) {
-                showEditSuccess();
-                $scope.searchFlightDetails();
+                var result = response.data;
+                if (result.IsSuccess) {
+                    showEditSuccess(result.Message);
+                    $scope.getFlightDetails($scope.editFlightDetailId);
+                    $scope.searchFlightDetails();
+                } else {
+                    showEditFailure(result.Message);
+                }
             }, function (error) {
                 showEditFailure(error);
             });
     }
 
-    $scope.cancelFlight = function () {
-        dataFactory.cancelFlight($scope.editFlightDetailId)
+    $scope.cancelFlight = function (flightDetailId) {
+        dataFactory.cancelFlight(flightDetailId)
             .then(function (response) {
-                $window.location.href = "/";
+                $scope.searchFlightDetails();
             });
     }
 

@@ -7,12 +7,14 @@ namespace iasset.core.Schedule
 {
     public class FlightScheduleManager : IFlightScheduleManager
     {
+        private readonly bool _isUpdate;
         private readonly IFlightGateRepository _flightGateRepository;
         private readonly List<FlightDetail> _flightDetails;
 
-        public FlightScheduleManager(IFlightGateRepository flightGateRepository)
+        public FlightScheduleManager(IFlightGateRepository flightGateRepository, bool isUpdate)
         {
             _flightGateRepository = flightGateRepository;
+            _isUpdate = isUpdate;
             _flightDetails = _flightGateRepository.CloneFlightDetails.ToList();
         }
 
@@ -23,8 +25,14 @@ namespace iasset.core.Schedule
                 .OrderBy(d => d.ArrivalTime)
                 .AsQueryable();
 
-            var flightConflictQry = flightsQry.Where(f => (f.ArrivalTime <= flightDetail.DepartureTime) && (f.DepartureTime >= flightDetail.ArrivalTime));
-            return flightConflictQry.Any();
+            flightsQry = flightsQry.Where(f => (f.ArrivalTime <= flightDetail.DepartureTime) && (f.DepartureTime >= flightDetail.ArrivalTime));
+
+            if(_isUpdate)
+            {
+                flightsQry = flightsQry.Where(f => f.Id != flightDetail.Id);
+            }
+
+            return flightsQry.Any();
         }
 
         private IEnumerable<FlightDetail> GetConflictingFlights(FlightDetail flightDetail)
@@ -33,6 +41,11 @@ namespace iasset.core.Schedule
                 .Where(d => d.Gate.Id.Equals(flightDetail.Gate.Id))
                 .OrderBy(d => d.ArrivalTime)
                 .AsQueryable();
+
+            if (_isUpdate)
+            {
+                flightsQry = flightsQry.Where(f => f.Id != flightDetail.Id);
+            }
 
             return flightsQry.Where(f => (f.ArrivalTime <= flightDetail.DepartureTime) && (f.DepartureTime >= flightDetail.ArrivalTime));
         }
@@ -46,13 +59,23 @@ namespace iasset.core.Schedule
                 .OrderBy(d => d.ArrivalTime)
                 .AsQueryable();
 
+            if (_isUpdate)
+            {
+                flightsQry = flightsQry.Where(f => f.Id != flightDetail.Id);
+            }
+
             return flightsQry.Where(f => f.ArrivalTime >= flightDetail.ArrivalTime);
         }
 
         public bool AddAndRescheduleOtherFlights(FlightDetail flightDetail)
         {
             var conflictingFlights = RemoveConflictingFlights(flightDetail);
-            AddCurrentFlight(flightDetail);
+
+            if (!_isUpdate)
+            {
+                AddCurrentFlight(flightDetail);
+            }
+            
             RescheduleConflictingFlights(conflictingFlights);
 
             UpdateRepository();

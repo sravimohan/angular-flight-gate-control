@@ -258,7 +258,6 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\app\dataFactory.js" />
-    <Content Include="Scripts\app\gate-edit-controller.js" />
     <Content Include="Scripts\app\gate-controller.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -293,7 +292,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\EditFlightDetail.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

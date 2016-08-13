@@ -82,7 +82,6 @@
             </form>
         </div>
 
-
         <table class="table">
             <thead>
             <tr>
@@ -98,7 +97,8 @@
                 <td>{{d.Flight.Name}}</td>
                 <td>{{d.ArrivalTime | date:'dd/MM/yyyy h:mm a'}}</td>
                 <td>{{d.DepartureTime | date:'dd/MM/yyyy h:mm a'}}</td>
-                <td><a class="btn btn-primary btn-sm" role="button" ng-click="onEditFlightDetail(d.Id)">Edit / Cancel Flight Details</a></td>
+                <td><a class="btn btn-primary" role="button" ng-click="onEditFlightDetail(d.Id)">Edit</a></td>
+                <td><button class="btn btn-danger" type="button" ng-click="cancelFlight(d.Id)" >Cancel</button></td>
             </tr>
             </tbody>
         </table>
@@ -154,7 +154,6 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button ng-click="cancelFlight()" class="btn btn-danger pull-left" type="button">Cancel Flight</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save Changes</button>
                     </div>
