@@ -9,5 +9,10 @@ namespace iasset.core
         public DateTime DepartureTime { get; set; }
         public Gate Gate { get; set; }
         public Flight Flight { get; set; }
+
+        public FlightDetail Clone()
+        {
+            return (FlightDetail)MemberwiseClone();
+        }
     }
 }

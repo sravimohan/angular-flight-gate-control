@@ -10,6 +10,14 @@ namespace iasset.core.Repository
         private static IList<Gate> _gates;
         private static IList<FlightDetail> _flightDetails;
 
+        public IList<FlightDetail> CloneFlightDetails
+        {
+            get
+            {
+                return _flightDetails.Select(item => item.Clone()).ToList();
+            }
+        }
+
         public IList<Flight> Flights => _flights;
         public IList<Gate> Gates => _gates;
 

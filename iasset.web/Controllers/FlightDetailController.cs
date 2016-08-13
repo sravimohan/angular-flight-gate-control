@@ -38,8 +38,16 @@ namespace iasset.web.Controllers
         // PUT: api/FlightDetail/5
         public JsonResult<FlightScheduleResponse> Put([FromBody]FlightDetailPut input)
         {
-            var response = _flightGateService.AddFlightDetail(input.flightId, input.gateId, input.arrivalDateTime, input.departureDateTime);
-            return Json(response);
+            try
+            {
+                var response = _flightGateService.AddFlightDetail(input.flightId, input.gateId, input.arrivalDateTime, input.departureDateTime);
+                return Json(response);
+            }
+            catch (FlightSchedulingException)
+            {
+                var response = new FlightScheduleResponse {IsSuccess = false, Message = "Unable to Add Flight due to scheduling conflict."};
+                return Json(response);
+            }
         }
 
         // DELETE: api/FlightDetail/5

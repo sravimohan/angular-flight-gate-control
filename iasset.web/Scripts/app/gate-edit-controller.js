@@ -19,7 +19,9 @@ app.controller("gateEditCtrl", function ($scope, $http, $window, $timeout, dataF
             message = "Saved Successfully";
         }
 
+        $scope.errorMessage = null;
         $scope.successMessage = message;
+
         $timeout(function () {
             $scope.successMessage = null;
         }, 2000);
@@ -32,7 +34,9 @@ app.controller("gateEditCtrl", function ($scope, $http, $window, $timeout, dataF
             message = "Failed";
         }
 
+        $scope.successMessage = null;
         $scope.errorMessage = message;
+
         $timeout(function () {
             $scope.errorMessage = null;
         }, 2000);

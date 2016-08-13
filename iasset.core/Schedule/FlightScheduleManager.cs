@@ -13,16 +13,13 @@ namespace iasset.core.Schedule
         public FlightScheduleManager(IFlightGateRepository flightGateRepository)
         {
             _flightGateRepository = flightGateRepository;
-            _flightDetails = _flightGateRepository.FlightDetails.ToList();
+            _flightDetails = _flightGateRepository.CloneFlightDetails.ToList();
         }
 
         public bool IsConflict(FlightDetail flightDetail)
         {
             var flightsQry = _flightDetails
-                .Where(d => d.Gate.Id.Equals(flightDetail.Gate.Id)
-                            && (d.ArrivalTime.Year == flightDetail.ArrivalTime.Year
-                                && d.ArrivalTime.Month == flightDetail.ArrivalTime.Month
-                                && d.ArrivalTime.Day == flightDetail.ArrivalTime.Day))
+                .Where(d => d.Gate.Id.Equals(flightDetail.Gate.Id))
                 .OrderBy(d => d.ArrivalTime)
                 .AsQueryable();
 
@@ -33,10 +30,7 @@ namespace iasset.core.Schedule
         private IEnumerable<FlightDetail> GetConflictingFlights(FlightDetail flightDetail)
         {
             var flightsQry = _flightDetails
-                .Where(d => d.Gate.Id.Equals(flightDetail.Gate.Id)
-                            && (d.ArrivalTime.Year == flightDetail.ArrivalTime.Year
-                                && d.ArrivalTime.Month == flightDetail.ArrivalTime.Month
-                                && d.ArrivalTime.Day == flightDetail.ArrivalTime.Day))
+                .Where(d => d.Gate.Id.Equals(flightDetail.Gate.Id))
                 .OrderBy(d => d.ArrivalTime)
                 .AsQueryable();
 
@@ -45,8 +39,7 @@ namespace iasset.core.Schedule
 
         private IEnumerable<FlightDetail> GetFollowingFlightDetails(FlightDetail flightDetail)
         {
-            var flightsQry = _flightGateRepository.FlightDetails
-                .Where(d => d.Gate.Id.Equals(flightDetail.Gate.Id)
+            var flightsQry = _flightDetails.Where(d => d.Gate.Id.Equals(flightDetail.Gate.Id)
                             && (d.ArrivalTime.Year == flightDetail.ArrivalTime.Year
                                 && d.ArrivalTime.Month == flightDetail.ArrivalTime.Month
                                 && d.ArrivalTime.Day == flightDetail.ArrivalTime.Day))
@@ -97,7 +90,9 @@ namespace iasset.core.Schedule
             {
                 var newFlightDetail = FindNextAvailableSlot(conflictingFlight);
                 if (newFlightDetail == null)
+                {
                     throw new FlightSchedulingException();
+                }
 
                 _flightDetails.Add(newFlightDetail);
             }

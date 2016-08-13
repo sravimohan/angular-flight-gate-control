@@ -6,6 +6,8 @@ namespace iasset.core.Repository
     {
         void InitData();
         IList<FlightDetail> FlightDetails { get; set; }
+        IList<FlightDetail> CloneFlightDetails { get; }
+
         IList<Flight> Flights { get; }
         IList<Gate> Gates { get; }
     }
