@@ -41,7 +41,7 @@ namespace iasset.tests
             };
 
             //act
-            var result = new FlightScheduleManager(new FlightGateRepository()).IsConflict(conflictFlightDetail);
+            var result = new FlightScheduleManager(new FlightGateRepository(),false).IsConflict(conflictFlightDetail);
 
             //assert
             Assert.IsTrue(result);
@@ -70,7 +70,7 @@ namespace iasset.tests
             };
 
             //act
-            var result = new FlightScheduleManager(new FlightGateRepository())
+            var result = new FlightScheduleManager(new FlightGateRepository(), false)
                 .FindAlternativeGate(conflictFlightDetail.Gate, conflictFlightDetail.ArrivalTime, conflictFlightDetail.DepartureTime);
 
             //assert
@@ -101,7 +101,7 @@ namespace iasset.tests
             };
 
             //act
-            var result = new FlightScheduleManager(new FlightGateRepository()).AddAndRescheduleOtherFlights(conflictFlightDetail);
+            var result = new FlightScheduleManager(new FlightGateRepository(), false).AddAndRescheduleOtherFlights(conflictFlightDetail);
 
             //assert
             Assert.IsTrue(result);

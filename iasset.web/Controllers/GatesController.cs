@@ -12,6 +12,7 @@ namespace iasset.web.Controllers
 
         public GatesController()
         {
+            //TODO: Implement IOC
             _flightGateService = new FlightGateService();
         }
 

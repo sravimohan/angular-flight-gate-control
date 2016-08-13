@@ -37,12 +37,12 @@ namespace iasset.core.Repository
             _flightDetails = new List<FlightDetail>();
         }
 
-        public void InitData()
+        public void InitData(bool forceReset = false)
         {
-            if (_flights != null)
+            if (!forceReset && _flights != null)
                 return;
 
-                _flights = new List<Flight>
+            _flights = new List<Flight>
             {
                 new Flight {Id = new Guid("700225B1-E4E7-4726-A2E0-B09CB1E78808"), Name = "Flight A" },
                 new Flight {Id = new Guid("96AD0D4C-8AEB-4122-B4E0-977B452746D9"), Name = "Flight B" },

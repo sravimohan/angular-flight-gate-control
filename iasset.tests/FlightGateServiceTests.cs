@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using iasset.core.Repository;
 using NUnit.Framework;
 using iasset.core.Services;
 
@@ -19,8 +20,9 @@ namespace iasset.tests
         public void GetFlightsTest()
         {
             //setup
+            new FlightGateRepository().InitData(true);
             var gate = _flightGateService.GetAllGates().First();
-            var date = new DateTime(2016, 8, 15, 10, 0, 0);
+            var date = DateTime.Now;
 
             //act
             var flights = _flightGateService.GetFlightDetails(gate.Id, date);
@@ -52,6 +54,7 @@ namespace iasset.tests
         public void UpdateFlightTest()
         {
             //setup
+            new FlightGateRepository().InitData(true);
             var flight = _flightGateService.GetAllFlights().First();
             var gate = _flightGateService.GetAllGates().First();
             var arrival = new DateTime(2016, 8, 25, 10, 0, 0);
@@ -60,7 +63,7 @@ namespace iasset.tests
 
             //act
             var updatedArrival = new DateTime(2016, 8, 26, 11, 0, 0);
-            var updatedDeparture = new DateTime(2016, 8, 26, 10, 30, 0);
+            var updatedDeparture = new DateTime(2016, 8, 26, 11, 30, 0);
             _flightGateService.UpdateFlightDetail(response.FlightDetailId, flight.Id, gate.Id, updatedArrival, updatedDeparture);
 
             //assert

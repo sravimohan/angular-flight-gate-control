@@ -4,7 +4,6 @@ namespace iasset.core.Repository
 {
     public interface IFlightGateRepository
     {
-        void InitData();
         IList<FlightDetail> FlightDetails { get; set; }
         IList<FlightDetail> CloneFlightDetails { get; }
 

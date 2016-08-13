@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using iasset.core.Repository;
 
 namespace iasset.web.Controllers
 {
@@ -7,6 +8,12 @@ namespace iasset.web.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult Reset()
+        {
+            new FlightGateRepository().InitData(true);
+            return View("Index");
         }
     }
 }
