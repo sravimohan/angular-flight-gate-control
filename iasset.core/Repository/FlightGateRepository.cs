@@ -73,27 +73,22 @@ namespace iasset.core.Repository
 
             _flightDetails = new List<FlightDetail>
             {
-                new FlightDetail {Id = new Guid("AAF1638B-1E04-4F73-83B8-56BD21BDBBF2"), ArrivalTime = new DateTime(GetYear,GetMonth,GetDay,10,0,0), DepartureTime = new DateTime(GetYear,GetMonth,GetDay,10,30,0), Flight = flight1, Gate = gate1},
-                new FlightDetail {Id = new Guid("5D1B3C1D-5274-4CB0-A121-668F2965E656"), ArrivalTime = new DateTime(GetYear,GetMonth,GetDay,11,0,0), DepartureTime = new DateTime(GetYear,GetMonth,GetDay,11,30,0), Flight = flight2, Gate = gate1},
-                new FlightDetail {Id = new Guid("D17DA891-C7B5-4C82-8580-BE90D8304025"), ArrivalTime = new DateTime(GetYear,GetMonth,GetDay,10,0,0), DepartureTime = new DateTime(GetYear,GetMonth,GetDay,10,30,0), Flight = flight3, Gate = gate2},
-                new FlightDetail {Id = new Guid("09EC01CC-2A7A-4C82-8D56-7F2D9AC52A7C"), ArrivalTime = new DateTime(GetYear,GetMonth,GetDay,11,0,0), DepartureTime = new DateTime(GetYear,GetMonth,GetDay,11,30,0), Flight = flight4, Gate = gate2},
-                new FlightDetail {Id = new Guid("7D39CFF0-8CFE-4839-B906-19555C8F1FC2"), ArrivalTime = new DateTime(GetYear,GetMonth,GetDay,12,0,0), DepartureTime = new DateTime(GetYear,GetMonth,GetDay,12,30,0), Flight = flight5, Gate = gate2},
+                new FlightDetail {Id = new Guid("AAF1638B-1E04-4F73-83B8-56BD21BDBBF2"), ArrivalTime = new DateTime(GetYear,GetMonth,GetDay,10,0,0), DepartureTime = new DateTime(GetYear,GetMonth,GetDay,10,29,0), Flight = flight1, Gate = gate1},
+                new FlightDetail {Id = new Guid("5D1B3C1D-5274-4CB0-A121-668F2965E656"), ArrivalTime = new DateTime(GetYear,GetMonth,GetDay,10,30,0), DepartureTime = new DateTime(GetYear,GetMonth,GetDay,10,59,0), Flight = flight2, Gate = gate1},
+                new FlightDetail {Id = new Guid("D17DA891-C7B5-4C82-8580-BE90D8304025"), ArrivalTime = new DateTime(GetYear,GetMonth,GetDay,11,0,0), DepartureTime = new DateTime(GetYear,GetMonth,GetDay,11,29,0), Flight = flight3, Gate = gate1},
+                new FlightDetail {Id = new Guid("09EC01CC-2A7A-4C82-8D56-7F2D9AC52A7C"), ArrivalTime = new DateTime(GetYear,GetMonth,GetDay,15,0,0), DepartureTime = new DateTime(GetYear,GetMonth,GetDay,15,29,0), Flight = flight4, Gate = gate1},
+                new FlightDetail {Id = new Guid("7D39CFF0-8CFE-4839-B906-19555C8F1FC2"), ArrivalTime = new DateTime(GetYear,GetMonth,GetDay,16,0,0), DepartureTime = new DateTime(GetYear,GetMonth,GetDay,16,29,0), Flight = flight5, Gate = gate1},
 
-                new FlightDetail {Id = new Guid("E6312EEB-E82C-45F2-9612-372E43C852CB"), ArrivalTime = new DateTime(GetTomorrowYear,GetTomorrowMonth,GetTomorrowDay,10,0,0), DepartureTime = new DateTime(GetTomorrowYear,GetTomorrowMonth,GetTomorrowDay,10,30,0), Flight = flight1, Gate = gate1},
-                new FlightDetail {Id = new Guid("61490A19-30F3-469A-BE90-6C1368591AA8"), ArrivalTime = new DateTime(GetTomorrowYear,GetTomorrowMonth,GetTomorrowDay,11,0,0), DepartureTime = new DateTime(GetTomorrowYear,GetTomorrowMonth,GetTomorrowDay,11,30,0), Flight = flight2, Gate = gate1},
-                new FlightDetail {Id = new Guid("922681EA-7C12-4252-83DC-F30EEBB6E460"), ArrivalTime = new DateTime(GetTomorrowYear,GetTomorrowMonth,GetTomorrowDay,10,0,0), DepartureTime = new DateTime(GetTomorrowYear,GetTomorrowMonth,GetTomorrowDay,10,30,0), Flight = flight3, Gate = gate2},
-                new FlightDetail {Id = new Guid("F1DB4855-5601-4511-A911-0B59FD621596"), ArrivalTime = new DateTime(GetTomorrowYear,GetTomorrowMonth,GetTomorrowDay,11,0,0), DepartureTime = new DateTime(GetTomorrowYear,GetTomorrowMonth,GetTomorrowDay,11,30,0), Flight = flight4, Gate = gate2},
-                new FlightDetail {Id = new Guid("B2594583-D02F-4FE5-BA07-7776D2131022"), ArrivalTime = new DateTime(GetTomorrowYear,GetTomorrowMonth,GetTomorrowDay,12,0,0), DepartureTime = new DateTime(GetTomorrowYear,GetTomorrowMonth,GetTomorrowDay,12,30,0), Flight = flight5, Gate = gate2},
+                new FlightDetail {Id = new Guid("E6312EEB-E82C-45F2-9612-372E43C852CB"), ArrivalTime = new DateTime(GetYear,GetMonth,GetDay,10,0,0), DepartureTime = new DateTime(GetYear,GetMonth,GetDay,10,29,0), Flight = flight1, Gate = gate2},
+                new FlightDetail {Id = new Guid("61490A19-30F3-469A-BE90-6C1368591AA8"), ArrivalTime = new DateTime(GetYear,GetMonth,GetDay,11,0,0), DepartureTime = new DateTime(GetYear,GetMonth,GetDay,11,29,0), Flight = flight2, Gate = gate2},
+                new FlightDetail {Id = new Guid("922681EA-7C12-4252-83DC-F30EEBB6E460"), ArrivalTime = new DateTime(GetYear,GetMonth,GetDay,12,0,0), DepartureTime = new DateTime(GetYear,GetMonth,GetDay,12,29,0), Flight = flight3, Gate = gate2},
+                new FlightDetail {Id = new Guid("F1DB4855-5601-4511-A911-0B59FD621596"), ArrivalTime = new DateTime(GetYear,GetMonth,GetDay,18,0,0), DepartureTime = new DateTime(GetYear,GetMonth,GetDay,18,29,0), Flight = flight4, Gate = gate2},
+                new FlightDetail {Id = new Guid("B2594583-D02F-4FE5-BA07-7776D2131022"), ArrivalTime = new DateTime(GetYear,GetMonth,GetDay,23,0,0), DepartureTime = new DateTime(GetYear,GetMonth,GetDay,23,29,0), Flight = flight5, Gate = gate2},
             };
         }
 
         private int GetYear => DateTime.Now.Year;
         private int GetMonth => DateTime.Now.Month;
         private int GetDay => DateTime.Now.Day;
-
-        private int GetTomorrowYear => DateTime.Now.AddDays(1).Year;
-        private int GetTomorrowMonth => DateTime.Now.AddDays(1).Month;
-        private int GetTomorrowDay => DateTime.Now.AddDays(1).Day;
-
     }
 }

@@ -15,5 +15,10 @@ namespace iasset.web.Controllers
             new FlightGateRepository().InitData(true);
             return View("Index");
         }
+
+        public ActionResult ReadMe()
+        {
+            return View();
+        }
     }
 }

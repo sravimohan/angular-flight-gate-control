@@ -47,7 +47,7 @@ app.controller("gateCtrl", function ($scope, $timeout, dataFactory) {
 
         $timeout(function () {
             $scope.editSuccessMessage = null;
-        }, 8000);
+        }, 10000);
     }
 
     var showEditFailure = function (message) {
@@ -87,11 +87,24 @@ app.controller("gateCtrl", function ($scope, $timeout, dataFactory) {
             });
 
         $scope.selectedDate = dataFactory.formatDate(new Date());
+        $scope.selectedArrivalDate = dataFactory.formatDate(new Date());
+        $scope.selectedDepartureDate = dataFactory.formatDate(new Date());
         $scope.selectedArrivalDateTime = dataFactory.formatDate(new Date());
         $scope.selectedDepartureDateTime = dataFactory.formatDate(new Date());
+
+        $scope.$watch('selectedGate', function () {
+            $scope.searchFlightDetails();
+        });
     };
 
     $scope.searchFlightDetails = function () {
+
+        if ($scope.selectedGate == null || $scope.selectedGate === "")
+            return;
+
+        if ($scope.selectedDate == null || $scope.selectedDate === "")
+            return;
+
         dataFactory.searchFlightDetails($scope.selectedGate, $scope.selectedDate)
         .then(function (response) {
             $scope.flightDetails = response.data;

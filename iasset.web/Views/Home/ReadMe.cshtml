@@ -1,0 +1,26 @@
+﻿@model dynamic
+
+<div class="panel panel-default">
+    <div class="panel-heading">Assumptions</div>
+    <div class="panel-body">
+        <ul>
+            <li>Adding flights for the day is allowed only on a empty spot</li>
+            <li>An "Empty Spot" is defined as a time range which does not conflict with any any other flights Arrival and Departure time range on the day</li>
+            <li>In case of a conflict, First it is attempted to allocate the flight to a diffent gate at the same time.</li>
+            <li>If the previous point is not possible, The then the conflicting flights are pushed down.</li>
+            <li>If we run over to the next day during the previous step, an error is returned to the user.</li>
+            <li>The reallocation of flights happen is steps of 5 minutes</li>
+        </ul>
+    </div>
+    <div class="panel-heading">Technical Notes</div>
+    <div class="panel-body">
+        <ul>
+            <li>ASP.Net MVC is used serve the base page</li>
+            <li>ASP.Net Web API is used to manupulate data</li>
+            <li>Angular is used as the front end platform - "/Scripts/app/"</li>
+            <li>Bootstrap is used for the layout and styling.</li>
+            <li>Data is stored in static variables.</li>
+            <li>IOC is not implemented for the sake of simplicity.</li>
+        </ul>
+    </div>
+</div>
