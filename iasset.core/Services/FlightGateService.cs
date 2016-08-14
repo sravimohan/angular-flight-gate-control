@@ -114,7 +114,7 @@ namespace iasset.core.Services
 
         public FlightScheduleResponse UpdateFlightDetail(Guid flightDetailId, Guid flightId, Guid gateId, DateTime arrivalDateTime, DateTime departureDateTime)
         {
-            if (departureDateTime == default(DateTime))
+            if (departureDateTime == default(DateTime) || (departureDateTime.Hour == 0 || departureDateTime.Minute == 0)) 
                 departureDateTime = arrivalDateTime.AddMinutes(29);
 
             var response = new FlightScheduleResponse();
