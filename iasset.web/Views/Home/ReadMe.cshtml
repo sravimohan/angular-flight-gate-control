@@ -4,11 +4,12 @@
     <div class="panel-heading">Assumptions</div>
     <div class="panel-body">
         <ul>
+            <li>Test Data is created for the current date.  Select "Reset Data" from the top Nav var to reset to the initial test data</li>
             <li>Adding flights for the day is allowed only on a empty spot</li>
             <li>An "Empty Spot" is defined as a time range which does not conflict with any any other flights Arrival and Departure time range on the day</li>
             <li>In case of a conflict, it is attempted to allocate the flight to a different gate at the same time.</li>
             <li>If the previous point is not possible, then the conflicting flights are pushed down.</li>
-            <li>If we run over to the next day during the previous step, an error is returned to the user.</li>
+            <li>If the arrival date time runs over to the next day during the previous step, an error is returned to the user.</li>
             <li>The reallocation of flights happens in steps of 5 minutes</li>
         </ul>
     </div>

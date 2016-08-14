@@ -18,7 +18,7 @@
                 <div class="form-group">
                     <label for="gateSelect">Gate</label>
                     <div class="form-inline">
-                        <select class="form-control" name="gateSelect" id="gateSelect" ng-model="selectedGate">
+                        <select class="form-control" name="addGateSelect" id="addGateSelect" ng-model="selectedGate">
                             <option ng-repeat="g in gates" value="{{g.Id}}">{{g.Name}}</option>
                         </select>
                     </div>
@@ -140,8 +140,8 @@
                         <div class="form-group">
                             <label for="dateArrivalSelect">Select Arrival Date Time</label>
                             <div class="form-inline">
-                                <input class="form-control input-small" id="dateArrivalSelect" type="text" ng-model="editSelectedArrivalDate" jqdatepicker />
-                                <input class="form-control input-small" id="dateArrivalSelectTime" type="text" ng-model="editSelectedArrivalTime" jqtimepicker />
+                                <input class="form-control input-small" id="editDateArrivalSelect" type="text" ng-model="editSelectedArrivalDate" jqdatepicker />
+                                <input class="form-control input-small" id="editDateArrivalSelectTime" type="text" ng-model="editSelectedArrivalTime" jqtimepicker />
                             </div>
                         </div>
                         <div class="form-group">
