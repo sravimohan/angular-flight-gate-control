@@ -29,7 +29,7 @@ namespace iasset.tests
 
             //assert
             Assert.IsNotNull(flights);
-            Assert.AreEqual(2, flights.Count());
+            Assert.AreEqual(5, flights.Count());
         }
 
         [Test]
